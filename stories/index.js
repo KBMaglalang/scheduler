@@ -11,6 +11,9 @@ import DayList from "components/DayList";
 import InterviewerListItem from "components/InterviewerListItem";
 import InterviewerList from "components/InterviewerList";
 
+
+
+
 storiesOf("Button", module)
   .addParameters({
     backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
@@ -140,8 +143,9 @@ storiesOf("InterviewerListItem", module)
       />
     ))
     .add("Clickable", () => (
-      <InterviewerList
-        interviewers={interviewers}
-        setInterviewer={action("setInterviewer")}
+      <InterviewerListItem
+        name={interviewer.name}
+        avatar={interviewer.avatar}
+        setInterviewer={() => action("setInterviewer")(interviewer.id)}
       />
     ));
