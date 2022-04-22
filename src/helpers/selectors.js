@@ -4,7 +4,9 @@ export function getAppointmentsForDay(state, day) {
   state.days.forEach(e => {
     if(e.name === day) {
       e.appointments.forEach(appointmentId => {
-        appointmentList = [...appointmentList, state.appointments[appointmentId]];
+        if(state.appointments[appointmentId]) {
+          appointmentList = [...appointmentList, state.appointments[appointmentId]];
+        }
       })
     }
   });
