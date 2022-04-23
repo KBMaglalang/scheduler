@@ -23,10 +23,6 @@ export default function Application(props) {
 
   const schedule = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
-    console.log(
-      "🚀 ~ file: Application.jsx ~ line 26 ~ schedule ~ interview",
-      interview
-    );
 
     return (
       <Appointment
