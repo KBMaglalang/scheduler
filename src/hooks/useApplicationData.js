@@ -41,7 +41,7 @@ export default function useApplicationData() {
       ...state.days[indexToUpdateSlots],
       spots: spotsRemaining,
     };
-    const days = [...state.days]; // ! likely something around here can be refactored
+    const days = [...state.days];
     days[indexToUpdateSlots] = newDay;
 
     setState({ ...state, appointments, days });
