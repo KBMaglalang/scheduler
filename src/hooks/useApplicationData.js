@@ -66,8 +66,14 @@ export default function useApplicationData() {
       ...state.days[indexToUpdateSlots],
       spots: spotsRemaining,
     };
-    const days = [...state.days];
-    days[indexToUpdateSlots] = newDay;
+    // const days = [...state.days];
+    // days[indexToUpdateSlots] = newDay;
+    const days = [...state.days].map((e, i) => {
+      if (i === indexToUpdateSlots) {
+        return newDay;
+      }
+      return e;
+    });
 
     return days;
   }
