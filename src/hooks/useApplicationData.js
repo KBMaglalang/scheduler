@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { getAppointmentsForDay } from "helpers/selectors";
 
 export default function useApplicationData() {
   const [state, setState] = useState({
@@ -11,23 +12,44 @@ export default function useApplicationData() {
 
   const setDay = (day) => setState({ ...state, day });
 
-  function updateAppointments(id, appointment) {
+  function updateAppointments(id, interview) {
+    console.log("state", state);
+
+    const appointment = {
+      ...state.appointments[id],
+      interview: interview ? { ...interview } : null,
+    };
+
     const appointments = {
       ...state.appointments,
       [id]: appointment,
     };
 
-    setState({ ...state, appointments });
+    // get the days index that I am working with
+    const indexToUpdateSlots = state.days.findIndex(
+      (e) => e.name === state.day
+    );
+
+    // calculate the number of spots available in the appointments with the latest information
+    const spotsRemaining = getAppointmentsForDay(
+      { appointments, days: state.days },
+      state.day
+    ).filter((e) => e.interview === null).length;
+
+    // update the number of spots left
+    const newDay = {
+      ...state.days[indexToUpdateSlots],
+      spots: spotsRemaining,
+    };
+    const days = [...state.days]; // ! likely something around here can be refactored
+    days[indexToUpdateSlots] = newDay;
+
+    setState({ ...state, appointments, days });
   }
 
   function bookInterview(id, interview) {
     return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
-      const appointment = {
-        ...state.appointments[id],
-        interview: { ...interview },
-      };
-
-      updateAppointments(id, appointment);
+      updateAppointments(id, interview);
     });
   }
 
@@ -35,12 +57,7 @@ export default function useApplicationData() {
     return axios
       .delete(`/api/appointments/${id}`, { interview: null })
       .then(() => {
-        const appointment = {
-          ...state.appointments[id],
-          interview: null,
-        };
-
-        updateAppointments(id, appointment);
+        updateAppointments(id, null);
       });
   }
 
