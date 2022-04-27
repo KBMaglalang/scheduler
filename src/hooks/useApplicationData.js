@@ -66,14 +66,9 @@ export default function useApplicationData() {
       ...state.days[indexToUpdateSlots],
       spots: spotsRemaining,
     };
-    // const days = [...state.days];
-    // days[indexToUpdateSlots] = newDay;
-    const days = [...state.days].map((e, i) => {
-      if (i === indexToUpdateSlots) {
-        return newDay;
-      }
-      return e;
-    });
+    const days = [...state.days].map((e, i) =>
+      i === indexToUpdateSlots ? newDay : e
+    );
 
     return days;
   }
@@ -100,11 +95,9 @@ export default function useApplicationData() {
   }
 
   function cancelInterview(id) {
-    return axios
-      .delete(`/api/appointments/${id}`, { interview: null })
-      .then(() => {
-        updateAppointments(id, null);
-      });
+    return axios.delete(`/api/appointments/${id}`).then(() => {
+      updateAppointments(id, null);
+    });
   }
 
   useEffect(() => {
