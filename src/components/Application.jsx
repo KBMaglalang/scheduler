@@ -1,6 +1,5 @@
 import React from "react";
 import DayList from "./DayList";
-
 import useApplicationData from "hooks/useApplicationData";
 import "components/Application.scss";
 import Appointment from "components/Appointment/index";
