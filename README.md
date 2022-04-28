@@ -2,6 +2,16 @@
 
 Using the latest tools and techniques, we build and test a React application that allows users to book and cancel interviews.
 
+# Technical Specifications
+
+- React
+- Webpack, Babel
+- Axios, WebSockets
+- Axios
+- Storybook, Webpack Dev Server, Jest, Testing Library
+- The Scheduler client application created using Create React App. Express is the basis for the Scheduler API server application.
+- Both servers run concurrently; requests are proxied from the Webpack development server to the API server.
+
 # Screenshots
 
 !['Homepage View'](docs/homepage.png)
