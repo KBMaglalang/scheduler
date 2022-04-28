@@ -2,12 +2,20 @@ import { useEffect, useReducer } from "react";
 import axios from "axios";
 import { getAppointmentsForDay } from "helpers/selectors";
 
+// --- Constants ---
 const SET_DAY = "SET_DAY";
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 const SET_INTERVIEW = "SET_INTERVIEW";
 const SET_SPOTS = "SET_SPOTS";
 
 export default function useApplicationData() {
+  const [state, dispatch] = useReducer(reducer, {
+    day: "Monday",
+    days: [],
+    appointments: {},
+    interviewers: {},
+  });
+
   function reducer(state, action) {
     switch (action.type) {
       case SET_DAY: {
@@ -40,17 +48,10 @@ export default function useApplicationData() {
     }
   }
 
-  const [state, dispatch] = useReducer(reducer, {
-    day: "Monday",
-    days: [],
-    appointments: {},
-    interviewers: {},
-  });
-
   const setDay = (day) => dispatch({ type: SET_DAY, value: day });
 
   function updatedDaysSpot(appointments) {
-    // get the days index that I am working with
+    // get the day index from days
     const indexToUpdateSlots = state.days.findIndex(
       (e) => e.name === state.day
     );
@@ -74,6 +75,7 @@ export default function useApplicationData() {
   }
 
   function updateAppointments(id, interview) {
+    // create updates appointments list
     const appointment = {
       ...state.appointments[id],
       interview: interview ? { ...interview } : null,
@@ -84,6 +86,7 @@ export default function useApplicationData() {
       [id]: appointment,
     };
 
+    //  update state
     dispatch({ type: SET_INTERVIEW, value: appointments });
     dispatch({ type: SET_SPOTS, value: updatedDaysSpot(appointments) });
   }

@@ -9,6 +9,7 @@ import Confirm from "./Confirm";
 import Error from "./Error";
 import useVisualMode from "hooks/useVisualMode";
 
+// --- useVisuals constants ---
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
@@ -24,7 +25,7 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
 
-  function save(name, interviewer) {
+  const save = (name, interviewer) => {
     const interview = {
       student: name,
       interviewer,
@@ -33,24 +34,16 @@ export default function Appointment(props) {
     props
       .bookInterview(props.id, interview)
       .then(() => transition(SHOW))
-      .catch((error) => transition(ERROR_SAVE, true));
-  }
+      .catch(() => transition(ERROR_SAVE, true));
+  };
 
-  function destroy() {
+  const destroy = () => {
     transition(DELETE, true);
     props
       .cancelInterview(props.id)
       .then(() => transition(EMPTY))
-      .catch((error) => transition(ERROR_DELETE, true));
-  }
-
-  function onConfirmDelete() {
-    transition(CONFIRM);
-  }
-
-  function onEdit() {
-    transition(EDIT);
-  }
+      .catch(() => transition(ERROR_DELETE, true));
+  };
 
   return (
     <article className="appointment">
@@ -61,8 +54,8 @@ export default function Appointment(props) {
         <Show
           student={props.interview.student}
           interviewer={props.interview.interviewer}
-          onDelete={onConfirmDelete}
-          onEdit={onEdit}
+          onDelete={() => transition(CONFIRM)}
+          onEdit={() => transition(EDIT)}
         />
       )}
       {mode === SAVING && <Status message="Saving" />}
