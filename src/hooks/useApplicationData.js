@@ -103,12 +103,6 @@ export default function useApplicationData() {
 
   useEffect(() => {
     webSocket.current = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
-    webSocket.current.onopen = () => {
-      console.log("web socket is open");
-    };
-    webSocket.current.onclose = () => {
-      console.log("web socket is closed");
-    };
 
     return () => {
       webSocket.current.close();
@@ -120,7 +114,6 @@ export default function useApplicationData() {
       return;
     }
     webSocket.current.onmessage = (e) => {
-      console.log("Message Received: ", e.data);
       const data = JSON.parse(e.data);
       if (data.type === "SET_INTERVIEW") {
         updateAppointments(data.id, data.interview);
