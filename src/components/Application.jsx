@@ -16,6 +16,7 @@ export default function Application(props) {
   const dailyInterviewers = getInterviewersForDay(state, state.day);
   const dailyAppointments = getAppointmentsForDay(state, state.day).map(
     (appointment) => {
+      // ! NEED TO MOVE INSIDE THE COMPONENT TO USE THE IMPLICIT RETURN INSTEAD OF EXPLICIT
       const interview = getInterview(state, appointment.interview);
       return (
         <Appointment
