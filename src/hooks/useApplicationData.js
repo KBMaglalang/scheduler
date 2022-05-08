@@ -4,7 +4,7 @@ import { getAppointmentsForDay } from "helpers/selectors";
 import reducer, {SET_DAY, SET_APPLICATION_DATA, SET_INTERVIEW } from "../reducers/application"
 
 export default function useApplicationData() {
-  
+  // 
 
   const [state, dispatch] = useReducer(reducer, {
     day: "Monday",
