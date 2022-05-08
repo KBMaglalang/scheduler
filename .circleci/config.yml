@@ -28,12 +28,12 @@ jobs:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "7d:0b:74:67:d1:75:01:c2:49:ba:ff:70:8b:35:03:28"
+            - "c5:b5:50:a0:0f:2e:01:2d:8a:27:f0:57:ab:2f:cf:bd"
       - checkout
       - run:
           name: Push Master to Production
           command: |
-            git push git@github.com:KBMaglalang/scheduler.git master:production
+            git push https://github.com/KBMaglalang/scheduler.git master:production
 
 workflows:
   version: 2
