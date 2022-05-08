@@ -1,4 +1,3 @@
-import { it } from "eslint/lib/testers/rule-tester";
 import reducer from "./application";
 
 describe("Reducer", () => {
