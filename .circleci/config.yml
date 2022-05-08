@@ -18,9 +18,33 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm test
+  deploy:
+    machine:
+      enabled: true
+
+    working_directory: ~/client
+
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "9d:b8:ba:63:a5:c7:4a:ec:ee:2f:a9:af:7b:d4:ca:f9"
+      - checkout
+      - run:
+          name: Push Master to Production
+          command: |
+            git push git@github.com:KBMaglalang/scheduler.git master:production
 
 workflows:
   version: 2
-  test:
+  test_and_deploy:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              ignore: production
+      - deploy:
+          filters:
+            branches:
+              ignore: production
+          requires:
+            - build
